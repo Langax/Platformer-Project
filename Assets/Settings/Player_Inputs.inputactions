@@ -8,9 +8,18 @@
             "actions": [
                 {
                     "name": "Move",
-                    "type": "PassThrough",
+                    "type": "Value",
                     "id": "17b1f3e6-489c-4402-891d-10c9a3609710",
                     "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Jump",
+                    "type": "Button",
+                    "id": "e9ed46b8-11e9-4386-963a-e0dffb29194e",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -29,8 +38,8 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "left",
-                    "id": "32facb74-fa66-45ac-9489-bc1256c039d5",
+                    "name": "Left",
+                    "id": "78bac562-7ee2-4548-b2f7-d7f386dbe84b",
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
@@ -40,8 +49,8 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "right",
-                    "id": "2c486ea0-0373-416e-9289-ff8b88cdd3b4",
+                    "name": "Right",
+                    "id": "f2a9d9b6-24b2-4ce0-8a55-bc1d621a139a",
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
@@ -49,6 +58,17 @@
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "fe26b5ef-0a7b-438a-9276-405ce8ae93a5",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";WASD",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
