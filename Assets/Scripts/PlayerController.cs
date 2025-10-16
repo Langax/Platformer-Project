@@ -54,6 +54,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // TODO: Make fireball not collide with the player
+    // TODO: Make fireball fire backward or forward depending on player direction
     public void FireBall(InputAction.CallbackContext context)
     {
         // So long as the fire timer is greater than 0, and it's not on cooldown, shoot a fireball.
