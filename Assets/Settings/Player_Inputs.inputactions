@@ -17,12 +17,21 @@
                 },
                 {
                     "name": "Jump",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "e9ed46b8-11e9-4386-963a-e0dffb29194e",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "ShootFireBall",
+                    "type": "PassThrough",
+                    "id": "5c6a5410-036b-471b-b434-5d930c1e8957",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -67,6 +76,17 @@
                     "processors": "",
                     "groups": ";WASD",
                     "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "444f20d1-17ca-4196-92bd-ed8a5ac43e0d",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";WASD",
+                    "action": "ShootFireBall",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
