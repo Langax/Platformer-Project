@@ -63,7 +63,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // TODO: Make fireball not collide with the player.
     // TODO: Make fireball fire backward or forward depending on player direction.
     public void FireBall(InputAction.CallbackContext context)
     {
@@ -95,7 +94,7 @@ public class PlayerController : MonoBehaviour
     {
         if (increaseAmount > 0)
         {
-            score++;
+            score += increaseAmount;
             Debug.Log("Score: " + score);
             SetScoreText();
         }
