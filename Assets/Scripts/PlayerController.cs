@@ -4,7 +4,7 @@ using UnityEngine.SocialPlatforms.Impl;
 
 public class PlayerController : MonoBehaviour
 {
-    // Variable declaration
+    // Variable declaration.
     private Rigidbody rb;
     private Vector2 movementDirection;
     
@@ -40,7 +40,6 @@ public class PlayerController : MonoBehaviour
 
     public void Move(InputAction.CallbackContext context)
     {
-        Debug.Log("Input detected");
         // Obtain the direction as a Vector2 from the InputAction.
         movementDirection = context.ReadValue<Vector2>();
     }
@@ -55,8 +54,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // TODO: Make fireball not collide with the player
-    // TODO: Make fireball fire backward or forward depending on player direction
+    // TODO: Make fireball not collide with the player.
+    // TODO: Make fireball fire backward or forward depending on player direction.
     public void FireBall(InputAction.CallbackContext context)
     {
         // So long as the fire timer is greater than 0, and it's not on cooldown, shoot a fireball.
@@ -69,8 +68,8 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-        // Reset the jump when the player hits the ground .
-        if (other.gameObject.CompareTag("Ground") && !canJump)
+        // Reset the jump when the player hits the ground.
+        if (other.gameObject.CompareTag("Ground") || other.gameObject.CompareTag("Platform") && !canJump)
         {
             canJump = true;
         }

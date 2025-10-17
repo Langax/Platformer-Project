@@ -2,12 +2,14 @@ using UnityEngine;
 
 public class FireBallMovement : MonoBehaviour
 {
+    // Variable declaration.
     private Rigidbody rb;
     private float angle = -45;
     private int force = 5;
     
     void Start()
     { 
+        // Immediately add a force to the Fireball to push it away from the Player.
         rb = GetComponent<Rigidbody>();
         rb.AddForce(50.0f, 50.0f, 0.0f);
     }
@@ -21,11 +23,11 @@ public class FireBallMovement : MonoBehaviour
             Quaternion rotation = Quaternion.Euler(0, 0, angle);
             rb.AddForce(rotation * Vector2.up * force, ForceMode.Impulse);
         }
-        // When the fireball hits the wall or a pipe, destroy it
+        // When the fireball hits the wall or a pipe, destroy it.
         else if (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Pipe"))
         {
             Destroy(gameObject);
         }
-        // TODO: Collision with Enemies (destroy self & enemy)
+        // TODO: Collision with Enemies (destroy self & enemy).
     }
 }
