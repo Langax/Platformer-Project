@@ -7,8 +7,9 @@ TagManager:
   - Ground
   - Wall
   - Pipe
-  - FirePower
   - FirePowerUp
+  - CoinBoxTag
+  - CoinBoxCollider
   layers:
   - Default
   - TransparentFX

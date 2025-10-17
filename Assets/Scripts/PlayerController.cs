@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class PlayerController : MonoBehaviour
 {
@@ -39,6 +40,7 @@ public class PlayerController : MonoBehaviour
 
     public void Move(InputAction.CallbackContext context)
     {
+        Debug.Log("Input detected");
         // Obtain the direction as a Vector2 from the InputAction.
         movementDirection = context.ReadValue<Vector2>();
     }
