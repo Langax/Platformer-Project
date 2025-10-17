@@ -10,11 +10,12 @@ TagManager:
   - FirePowerUp
   - CoinBoxTag
   - CoinBoxCollider
+  - Platform
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - 

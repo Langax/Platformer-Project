@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 4799953891487584388}
   - component: {fileID: 7051805829627977492}
   - component: {fileID: 1791498042934777173}
-  - component: {fileID: 6092864025301844992}
+  - component: {fileID: 7314144686245984020}
   m_Layer: 0
   m_Name: CoinBoxInteraction
   m_TagString: CoinBoxTag
@@ -131,10 +131,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb7feb748b94e854ebe11787f7afcc1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  score: 1
   goldCoinPrefab: {fileID: 8029627662703608427, guid: 89f80c758b5df8843873f1700b444880, type: 3}
   coinSpawnPoint: {fileID: 956167509565960325}
---- !u!65 &6092864025301844992
+  playerController: {fileID: 0}
+--- !u!65 &7314144686245984020
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
