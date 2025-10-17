@@ -51,11 +51,15 @@ public class PlayerController : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext context)
     {
-        // If the player isn't still in the air, apply an upward force of jumpForce.
-        if (canJump)
+        // Only jump on the button press, not release.
+        if (context.phase == InputActionPhase.Started)
         {
-            rb.AddForce(0.0f, jumpForce, 0.0f);
-            canJump = false;
+            // If the player isn't still in the air, apply an upward force of jumpForce.
+            if (canJump)
+            {
+                rb.AddForce(0.0f, jumpForce, 0.0f);
+                canJump = false;
+            }
         }
     }
 
