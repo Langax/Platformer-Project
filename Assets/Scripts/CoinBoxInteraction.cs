@@ -4,9 +4,10 @@ public class CoinBoxInteraction : MonoBehaviour
 {
     // Variable declaration.
     private bool canGiveCoin = true;
-    public int score;
     public GameObject goldCoinPrefab;
     public Transform coinSpawnPoint;
+    public PlayerController playerController;
+
 
     void OnCollisionEnter(Collision other)
     {
@@ -14,9 +15,10 @@ public class CoinBoxInteraction : MonoBehaviour
         if (other.gameObject.CompareTag("Player") && canGiveCoin)
         {
             GameObject goldCoin = Instantiate(goldCoinPrefab, coinSpawnPoint.transform.position, coinSpawnPoint.transform.rotation);
-            score++;
             canGiveCoin = false;
             Destroy(gameObject.GetComponent<BoxCollider>());
+
+            playerController.IncreaseScore(1);
         }
     }
 }

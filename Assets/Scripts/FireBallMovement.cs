@@ -6,6 +6,9 @@ public class FireBallMovement : MonoBehaviour
     private Rigidbody rb;
     private float angle = -45;
     private int force = 5;
+
+    // For use later when enemy death will increase score.
+    public PlayerController playerController;
     
     void Start()
     { 
@@ -17,7 +20,7 @@ public class FireBallMovement : MonoBehaviour
     void OnCollisionEnter(Collision other)
     {
         // When the fireball hits the ground, reset its momentum and apply a 45-degree angle force.
-        if (other.gameObject.CompareTag("Ground"))
+        if (other.gameObject.CompareTag("Ground") || other.gameObject.CompareTag("Platform"))
         {
             rb.linearVelocity = Vector3.zero;
             Quaternion rotation = Quaternion.Euler(0, 0, angle);
@@ -29,5 +32,6 @@ public class FireBallMovement : MonoBehaviour
             Destroy(gameObject);
         }
         // TODO: Collision with Enemies (destroy self & enemy).
+        // 
     }
 }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SocialPlatforms.Impl;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,15 +12,19 @@ public class PlayerController : MonoBehaviour
     private bool canJump = true;
     private float fireTimer = 0.0f;
     private float fireBallCooldown;
+    private int score;
     
     public int movementSpeed;
     public int jumpForce;
     public GameObject fireBallPrefab;
+    public TextMeshProUGUI scoreText;
     
     void Start()
     {
         // Rigid body assignment.
         rb = GetComponent<Rigidbody>();
+
+        score = 0;
     }
     
     void FixedUpdate()
@@ -80,5 +85,20 @@ public class PlayerController : MonoBehaviour
             Destroy(other.gameObject);
             fireTimer += 10.0f;
         }
+    }
+
+    public void IncreaseScore(int increaseAmount)
+    {
+        if (increaseAmount > 0)
+        {
+            score++;
+            Debug.Log("Score: " + score);
+            SetScoreText();
+        }
+    }
+
+    void SetScoreText()
+    {
+        scoreText.text = "Score: " + score.ToString();
     }
 }
