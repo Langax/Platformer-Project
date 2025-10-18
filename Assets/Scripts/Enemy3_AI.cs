@@ -6,10 +6,10 @@ public class Enemy3_AI : MonoBehaviour
     public Transform popOutEnemy;
     public float maxY = 1;
     public float minY = 0;
-    
+
     private bool goingUp = true;
     private float height;
-    
+
     private float popUpTimer = 0;
     private float popUpDelay = 5;
     private float movementDelay = 0.10f;
@@ -19,13 +19,13 @@ public class Enemy3_AI : MonoBehaviour
     {
         height = popOutEnemy.position.y;
     }
-    
+
     void Update()
     {
         // Increment the timers each Update.
         popUpTimer += Time.deltaTime;
         movementTimer += Time.deltaTime;
-        
+
         // Cooldown of 5 seconds between pop up.
         if (popUpTimer >= popUpDelay)
         {
@@ -51,17 +51,9 @@ public class Enemy3_AI : MonoBehaviour
                     }
                 }
             }
+
             // Apply the height to the object before waiting for the movementDelay.
             popOutEnemy.position = new Vector3(popOutEnemy.position.x, height, popOutEnemy.position.z);
-        }
-    }
-
-    // TODO: Fix this, currently doesn't collide properly with the player
-    void OnCollisionEnter(Collision other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            Destroy(other.gameObject);
         }
     }
 }

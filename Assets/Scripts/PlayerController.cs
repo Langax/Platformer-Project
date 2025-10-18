@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     
     public int movementSpeed;
     public int jumpForce;
+    public int health;
     public GameObject fireBallPrefab;
     public TextMeshProUGUI scoreText;
     
@@ -90,6 +91,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("PopUpEnemy"))
+        {
+            TakeDamage();
+        }
+    }
+
     public void IncreaseScore(int increaseAmount)
     {
         if (increaseAmount > 0)
@@ -103,5 +112,21 @@ public class PlayerController : MonoBehaviour
     void SetScoreText()
     {
         scoreText.text = "Score: " + score.ToString();
+    }
+
+    // TODO: Add three lives, each death removes one and resets the level ?
+    void RemoveLife()
+    {
+        
+    }
+
+    void TakeDamage()
+    {
+        health--;
+        if (health <= 0)
+        {
+            Debug.Log("Player has died");
+            RemoveLife();
+        }
     }
 }
