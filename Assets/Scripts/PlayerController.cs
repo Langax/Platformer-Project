@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private float fireTimer = 0.0f;
     private float fireBallCooldown;
     private int score;
+    private int lives = 3;
     
     public int movementSpeed;
     public int jumpForce;
@@ -98,7 +99,7 @@ public class PlayerController : MonoBehaviour
             TakeDamage();
         }
     }
-
+    
     public void IncreaseScore(int increaseAmount)
     {
         if (increaseAmount > 0)
@@ -117,12 +118,23 @@ public class PlayerController : MonoBehaviour
     // TODO: Add three lives, each death removes one and resets the level ?
     void RemoveLife()
     {
-        
+        lives -= 1;
+        if (lives <= 0)
+        {
+            Debug.Log("Game Over");
+        }
+        else
+        {
+            transform.position = new Vector3(-8.67f, 0.0f, 0.0f);
+            health = 3;
+            transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+        }
     }
 
     void TakeDamage()
     {
         health--;
+        transform.localScale = new Vector3(transform.localScale.x - 0.2f, transform.localScale.y - 0.2f, transform.localScale.z - 0.2f);
         if (health <= 0)
         {
             Debug.Log("Player has died");
