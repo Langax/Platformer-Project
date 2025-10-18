@@ -11,6 +11,7 @@ TagManager:
   - CoinBoxTag
   - CoinBoxCollider
   - Platform
+  - PopUpEnemy
   layers:
   - Default
   - TransparentFX

@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     
     public int movementSpeed;
     public int jumpForce;
+    public int health;
     public GameObject fireBallPrefab;
     public TextMeshProUGUI scoreText;
     
@@ -63,7 +64,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // TODO: Make fireball not collide with the player.
     // TODO: Make fireball fire backward or forward depending on player direction.
     public void FireBall(InputAction.CallbackContext context)
     {
@@ -91,11 +91,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("PopUpEnemy"))
+        {
+            TakeDamage();
+        }
+    }
+
     public void IncreaseScore(int increaseAmount)
     {
         if (increaseAmount > 0)
         {
-            score++;
+            score += increaseAmount;
             Debug.Log("Score: " + score);
             SetScoreText();
         }
@@ -104,5 +112,21 @@ public class PlayerController : MonoBehaviour
     void SetScoreText()
     {
         scoreText.text = "Score: " + score.ToString();
+    }
+
+    // TODO: Add three lives, each death removes one and resets the level ?
+    void RemoveLife()
+    {
+        
+    }
+
+    void TakeDamage()
+    {
+        health--;
+        if (health <= 0)
+        {
+            Debug.Log("Player has died");
+            RemoveLife();
+        }
     }
 }
