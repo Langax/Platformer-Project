@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviour
             TakeDamage();
         }
     }
-
+    
     public void IncreaseScore(int increaseAmount)
     {
         if (increaseAmount > 0)
