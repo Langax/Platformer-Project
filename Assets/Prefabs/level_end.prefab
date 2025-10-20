@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4913362524633627671}
   - component: {fileID: 8644420741631824324}
   - component: {fileID: 8342746139123861826}
+  - component: {fileID: 3687381326959447238}
   m_Layer: 0
   m_Name: level_end
   m_TagString: Untagged
@@ -29,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 13.23169, y: 2, z: -0.0061597824}
-  m_LocalScale: {x: 1, y: 3, z: 5}
+  m_LocalScale: {x: 2, y: 3, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -49,7 +50,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7253180718355650426}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -107,3 +108,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3687381326959447238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7253180718355650426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70d3f4cde4a13ab4badecf5aeb414686, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam_object: {fileID: 0}
+  level_1: 1
+  level_2: 1
+  level_3: 0
