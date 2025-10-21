@@ -14,7 +14,7 @@ public class FireBallMovement : MonoBehaviour
     { 
         // Immediately add a force to the Fireball to push it away from the Player.
         rb = GetComponent<Rigidbody>();
-        rb.AddForce(90.0f, 0.0f, 0.0f);
+        rb.AddForce(200.0f, -190.0f, 0.0f);
     }
     
     void OnCollisionEnter(Collision other)

@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     public int health;
     public GameObject fireBallPrefab;
     public TextMeshProUGUI scoreText;
+    public Transform fireBallSpawnLocation;
     
     void Start()
     {
@@ -27,6 +28,12 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 
         score = 0;
+    }
+
+    void Update()
+    {
+        // Keep the rotation fixed.
+        transform.rotation = new Quaternion(0, 0, 0, 1);
     }
     
     void FixedUpdate()
@@ -71,7 +78,7 @@ public class PlayerController : MonoBehaviour
         // So long as the fire timer is greater than 0, and it's not on cooldown, shoot a fireball.
         if (fireTimer > 0 && fireBallCooldown <= 0)
         {
-            GameObject fireBall = Instantiate(fireBallPrefab, transform.position, transform.rotation);
+            GameObject fireBall = Instantiate(fireBallPrefab, fireBallSpawnLocation.transform.position, fireBallSpawnLocation.transform.rotation);
             fireBallCooldown = 1.0f;
         }
     }
