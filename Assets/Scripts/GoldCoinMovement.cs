@@ -3,9 +3,9 @@ using UnityEngine;
 public class GoldCoinMovement : MonoBehaviour
 {
     // Variable declaration.
-    private float timeUntilDestroy = 0.8f;
+    private float timeUntilDestroy = 0.5f;
     private float timeSinceSpawn;
-    public int boostPower = 30;
+    public int boostPower = 90;
     Rigidbody rb;
     
     void Start()

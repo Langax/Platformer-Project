@@ -779,10 +779,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   movementSpeed: 200
-  jumpForce: 400
+  jumpForce: 700
   health: 3
   fireBallPrefab: {fileID: 4082506458003673845, guid: 4cda935591233eb46b44d8e50790aff3, type: 3}
   scoreText: {fileID: 1920345340}
+  fireBallSpawnLocation: {fileID: 1006543473}
 --- !u!54 &833502007
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -953,7 +954,8 @@ Transform:
   m_LocalPosition: {x: -8.67, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1006543473}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!135 &833502013
@@ -1047,6 +1049,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3759405346421577699, guid: 3bb1081468a9b4c4f8657d49d02e5899, type: 3}
   m_PrefabInstance: {fileID: 8001729598752477167}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1006543472
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1006543473}
+  m_Layer: 3
+  m_Name: FireBallSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1006543473
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1006543472}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.421, y: 0.296, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 833502012}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1122486357
 GameObject:
   m_ObjectHideFlags: 0
