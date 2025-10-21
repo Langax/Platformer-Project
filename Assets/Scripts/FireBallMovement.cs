@@ -5,7 +5,7 @@ public class FireBallMovement : MonoBehaviour
     // Variable declaration.
     private Rigidbody rb;
     private float angle = -45;
-    private int force = 5;
+    private int force = 8;
 
     // For use later when enemy death will increase score.
     public PlayerController playerController;
@@ -14,7 +14,7 @@ public class FireBallMovement : MonoBehaviour
     { 
         // Immediately add a force to the Fireball to push it away from the Player.
         rb = GetComponent<Rigidbody>();
-        rb.AddForce(50.0f, 50.0f, 0.0f);
+        rb.AddForce(90.0f, 0.0f, 0.0f);
     }
     
     void OnCollisionEnter(Collision other)
