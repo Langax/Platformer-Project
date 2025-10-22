@@ -8,6 +8,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level_1.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/Level_BossRoom.unity
+    guid: 0c5bb209b4e52ce40835ea267cc226d4
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 3aef91de1adcdd242a0e4e812bc95f5b, type: 3}
   m_UseUCBPForAssetBundles: 0

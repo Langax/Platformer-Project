@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SocialPlatforms.Impl;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 movementDirection;
     
     private bool canJump = true;
+    private bool stoodOnPipe = false;
     private float fireTimer = 0.0f;
     private float fireBallCooldown;
     private int score;
@@ -21,6 +23,7 @@ public class PlayerController : MonoBehaviour
     public GameObject fireBallPrefab;
     public TextMeshProUGUI scoreText;
     public Transform fireBallSpawnLocation;
+    public Transform bossRoomSpawnLocation;
     
     void Start()
     {
@@ -72,6 +75,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void Crouch(InputAction.CallbackContext context)
+    {
+        if (stoodOnPipe)
+        {
+            gameObject.transform.position = bossRoomSpawnLocation.position;
+        }
+    }
+    
     // TODO: Make fireball fire backward or forward depending on player direction.
     public void FireBall(InputAction.CallbackContext context)
     {
@@ -99,6 +110,22 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void OnCollisionStay(Collision other)
+    {
+        if (other.gameObject.CompareTag("DownPipe"))
+        {
+            stoodOnPipe = true;
+        }
+    }
+
+    void OnCollisionExit(Collision other)
+    {
+        if (other.gameObject.CompareTag("DownPipe"))
+        {
+            stoodOnPipe = false;
+        }
+    }
+    
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("PopUpEnemy"))
