@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SocialPlatforms.Impl;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 movementDirection;
     
     private bool canJump = true;
+    private bool stoodOnPipe = false;
     private float fireTimer = 0.0f;
     private float fireBallCooldown;
     private int score;
@@ -21,6 +23,7 @@ public class PlayerController : MonoBehaviour
     public GameObject fireBallPrefab;
     public TextMeshProUGUI scoreText;
     public Transform fireBallSpawnLocation;
+    public Transform bossRoomSpawnLocation;
     
     void Start()
     {
@@ -72,6 +75,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void Crouch(InputAction.CallbackContext context)
+    {
+        // Teleport the player to the bossRoom if they crouch on the DownPipe
+        if (stoodOnPipe)
+        {
+            gameObject.transform.position = bossRoomSpawnLocation.position;
+        }
+    }
+    
     // TODO: Make fireball fire backward or forward depending on player direction.
     public void FireBall(InputAction.CallbackContext context)
     {
@@ -99,6 +111,28 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void OnCollisionStay(Collision other)
+    {
+        if (other.gameObject.CompareTag("DownPipe"))
+        {
+            // Ensure that the player is stood on TOP of the pipe.
+            float positionDifference = other.transform.position.x - transform.position.x;
+            if (positionDifference < 0.9 && positionDifference > -0.9)
+            {
+                stoodOnPipe = true;
+            }
+        }
+    }
+
+    void OnCollisionExit(Collision other)
+    {
+        // Reset the flag when the player jumps off of the Pipe.
+        if (other.gameObject.CompareTag("DownPipe"))
+        {
+            stoodOnPipe = false;
+        }
+    }
+    
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("PopUpEnemy"))
