@@ -77,6 +77,7 @@ public class PlayerController : MonoBehaviour
 
     public void Crouch(InputAction.CallbackContext context)
     {
+        // Teleport the player to the bossRoom if they crouch on the DownPipe
         if (stoodOnPipe)
         {
             gameObject.transform.position = bossRoomSpawnLocation.position;
@@ -114,12 +115,18 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("DownPipe"))
         {
-            stoodOnPipe = true;
+            // Ensure that the player is stood on TOP of the pipe.
+            float positionDifference = other.transform.position.x - transform.position.x;
+            if (positionDifference < 0.9 && positionDifference > -0.9)
+            {
+                stoodOnPipe = true;
+            }
         }
     }
 
     void OnCollisionExit(Collision other)
     {
+        // Reset the flag when the player jumps off of the Pipe.
         if (other.gameObject.CompareTag("DownPipe"))
         {
             stoodOnPipe = false;
