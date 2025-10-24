@@ -1017,7 +1017,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3687381326959447238, guid: 80c3eebe25dc4474bb2c14fe123f3476, type: 3}
       propertyPath: cam_rotation.y
-      value: -0.70710677
+      value: 270
       objectReference: {fileID: 0}
     - target: {fileID: 7253180718355650426, guid: 80c3eebe25dc4474bb2c14fe123f3476, type: 3}
       propertyPath: m_Name
