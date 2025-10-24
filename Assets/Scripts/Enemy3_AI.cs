@@ -59,4 +59,13 @@ public class Enemy3_AI : MonoBehaviour
             popOutEnemy.transform.position = new Vector3(popOutEnemy.transform.position.x, height, popOutEnemy.transform.position.z);
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // When colliding with the player, call its TakeDamage() function.
+        if (other.gameObject.CompareTag("Player"))
+        {
+            other.gameObject.GetComponent<PlayerController>().TakeDamage();
+        }
+    }
 }

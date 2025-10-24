@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class MovingPlatformController : MonoBehaviour
 {
+    // Variable declaration.
     public bool activateOnStep = false;
     public bool movingLeftAndRight = false;
     public float heightMax;
@@ -21,12 +22,11 @@ public class MovingPlatformController : MonoBehaviour
     {
         platformX = transform.position.x;
         platformY = transform.position.y;
-
-        Debug.Log("Height minimum: " + heightMin);
     }
 
     void Update()
     {
+        // Each update move left/right or up/down depending on which is specified in the editor. If it's only activate on step, the logic is moved to OnCollisionStay.
         if (!activateOnStep)
         {
             if (movingLeftAndRight)
@@ -42,6 +42,7 @@ public class MovingPlatformController : MonoBehaviour
 
     private void OnCollisionStay(Collision other)
     {
+        // Whilst the player is stood on the platform, move it left/right or up/down.
         if (activateOnStep)
         {
             if (other.gameObject.CompareTag("Player"))
@@ -60,6 +61,7 @@ public class MovingPlatformController : MonoBehaviour
 
     void MoveLeftAndRight()
     {
+        // Start by moving right at a rate of LRSpeed, when it reaches xMax start to move left instead.
         if (movingRight)
         {
             platformX += LRSpeed;
@@ -76,11 +78,13 @@ public class MovingPlatformController : MonoBehaviour
                 movingRight = true;
             }
         }
+        // Apply the new position.
         transform.position = new Vector3(platformX, transform.position.y, transform.position.z);
     }
 
     void MoveUpAndDown()
     {
+        // Start by moving up at a rate of UDSpeed, when it reaches heightMax, start moving down instead.
         if (movingUp)
         {
             platformY += UDSpeed;
@@ -97,6 +101,7 @@ public class MovingPlatformController : MonoBehaviour
                 movingUp = true;
             }
         }
+        // Apply the new position.
         transform.position = new Vector3(transform.position.x, platformY, transform.position.z);
     }
 }
