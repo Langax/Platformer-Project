@@ -27,7 +27,7 @@ public class FireBallMovement : MonoBehaviour
             rb.AddForce(rotation * Vector2.up * force, ForceMode.Impulse);
         }
         // When the fireball hits the wall or a pipe, destroy it.
-        else if (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Pipe"))
+        else if (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Pipe") || other.gameObject.CompareTag("DownPipe"))
         {
             Destroy(gameObject);
         }

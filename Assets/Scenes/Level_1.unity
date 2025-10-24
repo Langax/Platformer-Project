@@ -784,6 +784,7 @@ MonoBehaviour:
   fireBallPrefab: {fileID: 4082506458003673845, guid: 4cda935591233eb46b44d8e50790aff3, type: 3}
   scoreText: {fileID: 1920345340}
   fireBallSpawnLocation: {fileID: 1006543473}
+  bossRoomSpawnLocation: {fileID: 0}
 --- !u!54 &833502007
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1682,7 +1683,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4837971263935693051, guid: 3bb1081468a9b4c4f8657d49d02e5899, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.866
+      value: -0.809
       objectReference: {fileID: 0}
     - target: {fileID: 7085604461658521486, guid: 3bb1081468a9b4c4f8657d49d02e5899, type: 3}
       propertyPath: maxY
@@ -1690,7 +1691,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7085604461658521486, guid: 3bb1081468a9b4c4f8657d49d02e5899, type: 3}
       propertyPath: minY
-      value: -0.9
+      value: -0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7477425044177037092, guid: 3bb1081468a9b4c4f8657d49d02e5899, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7477425044177037092, guid: 3bb1081468a9b4c4f8657d49d02e5899, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

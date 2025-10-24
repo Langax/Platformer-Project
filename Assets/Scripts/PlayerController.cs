@@ -9,9 +9,7 @@ public class PlayerController : MonoBehaviour
     // Variable declaration.
     private Rigidbody rb;
     private Vector2 movementDirection;
-    
     private bool canJump = true;
-    private bool stoodOnPipe = false;
     private float fireTimer = 0.0f;
     private float fireBallCooldown;
     private int score;
@@ -20,11 +18,13 @@ public class PlayerController : MonoBehaviour
     public int movementSpeed;
     public int jumpForce;
     public int health;
+    public bool stoodOnPipe = false;
     public GameObject fireBallPrefab;
     public TextMeshProUGUI scoreText;
     public Transform fireBallSpawnLocation;
     public Transform bossRoomSpawnLocation;
-    
+
+
     void Start()
     {
         // Rigid body assignment.
@@ -39,6 +39,9 @@ public class PlayerController : MonoBehaviour
         transform.rotation = new Quaternion(0, 0, 0, 1);
     }
     
+    //==========================================================================
+    //MOVEMENT & INPUTS
+    //==========================================================================
     void FixedUpdate()
     {
         // Apply the movement direction to the rigidbody (Normalized by deltaTime) as linearVelocity.
@@ -95,54 +98,26 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
+    //==========================================================================
+    //COLLISIONS
+    //==========================================================================
     void OnCollisionEnter(Collision other)
     {
-        // Reset the jump when the player hits the ground.
-        if (other.gameObject.CompareTag("Ground") || other.gameObject.CompareTag("Platform") && !canJump)
+        // Reset the jump when the player hits the ground (or similar).
+        if (other.gameObject.CompareTag("Ground") || other.gameObject.CompareTag("Platform") && !canJump || other.gameObject.CompareTag("MovingPlatform") && !canJump)
         {
             canJump = true;
         }
-        // Increase the fireTimer to allow fireballs to be shot.
-        else if (other.gameObject.CompareTag("FirePowerUp"))
-        {
-            Debug.Log("Activating Fire power up");
-            Destroy(other.gameObject);
-            fireTimer += 10.0f;
-        }
-    }
-
-    void OnCollisionStay(Collision other)
-    {
-        if (other.gameObject.CompareTag("DownPipe"))
-        {
-            // Ensure that the player is stood on TOP of the pipe.
-            float positionDifference = other.transform.position.x - transform.position.x;
-            if (positionDifference < 0.9 && positionDifference > -0.9)
-            {
-                stoodOnPipe = true;
-            }
-        }
-    }
-
-    void OnCollisionExit(Collision other)
-    {
-        // Reset the flag when the player jumps off of the Pipe.
-        if (other.gameObject.CompareTag("DownPipe"))
-        {
-            stoodOnPipe = false;
-        }
     }
     
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("PopUpEnemy"))
-        {
-            TakeDamage();
-        }
-    }
-    
+    //==========================================================================
+    //SCORE & DEATH
+    //==========================================================================
+
     public void IncreaseScore(int increaseAmount)
     {
+        // Increment the score by an inputted amount and re-set the score text.
         if (increaseAmount > 0)
         {
             score += increaseAmount;
@@ -159,6 +134,7 @@ public class PlayerController : MonoBehaviour
     // TODO: Add three lives, each death removes one and resets the level ?
     void RemoveLife()
     {
+        // When the players health reaches 0, remove a life and reset the position/health of the player, when all three lives are gone, game over.
         lives -= 1;
         if (lives <= 0)
         {
@@ -172,14 +148,25 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void TakeDamage()
+    public void TakeDamage()
     {
+        // Reduce the health by 1 and shrink the player by 0.2f, lower the position of the player at the same time to remove mutliple hits from a single collision.
         health--;
         transform.localScale = new Vector3(transform.localScale.x - 0.2f, transform.localScale.y - 0.2f, transform.localScale.z - 0.2f);
+        transform.position = new Vector3(transform.position.x, transform.position.y - 0.2f, transform.position.z);
         if (health <= 0)
         {
             Debug.Log("Player has died");
             RemoveLife();
         }
+    }
+
+    //==========================================================================
+    //POWER UPS
+    //==========================================================================
+
+    public void ActivateFirePower()
+    {
+        fireTimer += 10.0f;
     }
 }
