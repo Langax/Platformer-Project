@@ -64,7 +64,7 @@ public class MovingPlatformController : MonoBehaviour
         // Start by moving right at a rate of LRSpeed, when it reaches xMax start to move left instead.
         if (movingRight)
         {
-            platformX += LRSpeed;
+            platformX += (LRSpeed * Time.deltaTime);
             if (platformX >= xMax)
             {
                 movingRight = false;
@@ -72,7 +72,7 @@ public class MovingPlatformController : MonoBehaviour
         }
         else
         {
-            platformX -= LRSpeed;
+            platformX -= (LRSpeed * Time.deltaTime);
             if (platformX <= xMin)
             {
                 movingRight = true;
@@ -87,7 +87,7 @@ public class MovingPlatformController : MonoBehaviour
         // Start by moving up at a rate of UDSpeed, when it reaches heightMax, start moving down instead.
         if (movingUp)
         {
-            platformY += UDSpeed;
+            platformY += (UDSpeed * Time.deltaTime);
             if (platformY >= heightMax)
             {
                 movingUp = false;
@@ -95,7 +95,7 @@ public class MovingPlatformController : MonoBehaviour
         }
         else
         {
-            platformY -= UDSpeed;
+            platformY -= (UDSpeed * Time.deltaTime);
             if (platformY <= heightMin)
             {
                 movingUp = true;

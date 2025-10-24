@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour
         transform.rotation = new Quaternion(0, 0, 0, 1);
 
         DoRayCast();
+ 
     }
     
     //==========================================================================
@@ -177,28 +178,38 @@ public class PlayerController : MonoBehaviour
 
 
     //==========================================================================
-    //RAYCASTING
+    //RAY-CASTING
     //==========================================================================
 
     private int DoRayCast()
     {
+        // Create the ray cast
         RaycastHit hit;
         Ray ray = new Ray(transform.position, -transform.up);
         bool rayHit = Physics.Raycast(ray, out hit, raycastLength);
 
         if (rayHit)
         {
+            // When it detects a Moving platform, update the position variables and obtain the delta, then apply that to the player to have the player move with the platform
             if (hit.collider.CompareTag("MovingPlatform"))
             {
                 platformPreviousPos = platformCurrentPos;
                 platformCurrentPos = hit.collider.transform.position;
 
+                
                 Vector3 platformMovementDelta = platformCurrentPos - platformPreviousPos;
-                transform.position = transform.position + platformMovementDelta;
+                
+                // Discard values that are too high to avoid buggy teleporting
+                if (platformMovementDelta.x <= 0.07 && platformMovementDelta.x >= -0.07)
+                {
+                    transform.position += platformMovementDelta;
+                }
 
                 return 1;
             }
         }
+
         return 0;
     }
+    
 }
