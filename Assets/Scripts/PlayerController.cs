@@ -11,9 +11,12 @@ public class PlayerController : MonoBehaviour
     private Vector2 movementDirection;
     private bool canJump = true;
     private float fireTimer = 0.0f;
-    private float fireBallCooldown;
+    private float fireBallCooldown = 0;
     private int score;
     private int lives = 3;
+    private int raycastLength = 10;
+    private Vector3 platformCurrentPos;
+    private Vector3 platformPreviousPos;
     
     public int movementSpeed;
     public int jumpForce;
@@ -37,6 +40,9 @@ public class PlayerController : MonoBehaviour
     {
         // Keep the rotation fixed.
         transform.rotation = new Quaternion(0, 0, 0, 1);
+
+        DoRayCast();
+ 
     }
     
     //==========================================================================
@@ -169,4 +175,41 @@ public class PlayerController : MonoBehaviour
     {
         fireTimer += 10.0f;
     }
+
+
+    //==========================================================================
+    //RAY-CASTING
+    //==========================================================================
+
+    private int DoRayCast()
+    {
+        // Create the ray cast
+        RaycastHit hit;
+        Ray ray = new Ray(transform.position, -transform.up);
+        bool rayHit = Physics.Raycast(ray, out hit, raycastLength);
+
+        if (rayHit)
+        {
+            // When it detects a Moving platform, update the position variables and obtain the delta, then apply that to the player to have the player move with the platform
+            if (hit.collider.CompareTag("MovingPlatform"))
+            {
+                platformPreviousPos = platformCurrentPos;
+                platformCurrentPos = hit.collider.transform.position;
+
+                
+                Vector3 platformMovementDelta = platformCurrentPos - platformPreviousPos;
+                
+                // Discard values that are too high to avoid buggy teleporting
+                if (platformMovementDelta.x <= 0.07 && platformMovementDelta.x >= -0.07)
+                {
+                    transform.position += platformMovementDelta;
+                }
+
+                return 1;
+            }
+        }
+
+        return 0;
+    }
+    
 }
