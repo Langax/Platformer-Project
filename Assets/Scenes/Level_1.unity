@@ -1360,7 +1360,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4595741199678935619, guid: 518dfa229eb0fc449a8b445afbb13428, type: 3}
       propertyPath: xMax
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4595741199678935619, guid: 518dfa229eb0fc449a8b445afbb13428, type: 3}
       propertyPath: xMin
@@ -1368,7 +1368,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4595741199678935619, guid: 518dfa229eb0fc449a8b445afbb13428, type: 3}
       propertyPath: LRSpeed
-      value: 0.001
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4595741199678935619, guid: 518dfa229eb0fc449a8b445afbb13428, type: 3}
+      propertyPath: UDSpeed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4595741199678935619, guid: 518dfa229eb0fc449a8b445afbb13428, type: 3}
+      propertyPath: activateOnStep
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4595741199678935619, guid: 518dfa229eb0fc449a8b445afbb13428, type: 3}
       propertyPath: movingLeftAndRight
@@ -1572,6 +1580,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4595741199678935619, guid: 518dfa229eb0fc449a8b445afbb13428, type: 3}
+      propertyPath: UDSpeed
+      value: 0.7
+      objectReference: {fileID: 0}
     - target: {fileID: 5727507517328602619, guid: 518dfa229eb0fc449a8b445afbb13428, type: 3}
       propertyPath: m_Name
       value: MovingPlatform
