@@ -3,9 +3,9 @@ using UnityEngine;
 public class Enemy3_AI : MonoBehaviour
 {
     // Variable Declaration.
-    public Transform popOutEnemy;
+    public GameObject popOutEnemy;
     public float maxY = 1;
-    public float minY = 0;
+    public float minY = -0.5f;
 
     private bool goingUp = true;
     private float height;
@@ -17,7 +17,7 @@ public class Enemy3_AI : MonoBehaviour
 
     void Start()
     {
-        height = popOutEnemy.position.y;
+        height = popOutEnemy.transform.position.y;
     }
 
     void Update()
@@ -35,25 +35,32 @@ public class Enemy3_AI : MonoBehaviour
                 // When goingUp is true, increase the height until the max, then begin to decrease the height until minimum.
                 if (goingUp)
                 {
-                    height += 0.01f;
-                    if (popOutEnemy.position.y >= maxY)
+                    if (!popOutEnemy.activeSelf)
+                    {
+                        popOutEnemy.SetActive(true);
+                    }
+
+                    height += 0.0006f;
+
+                    if (popOutEnemy.transform.position.y >= maxY)
                     {
                         goingUp = false;
                     }
                 }
                 else
                 {
-                    height -= 0.01f;
-                    if (popOutEnemy.position.y <= minY)
+                    height -= 0.001f;
+                    if (popOutEnemy.transform.position.y <= minY)
                     {
                         goingUp = true;
+                        popOutEnemy.SetActive(false);
                         popUpTimer = 0;
                     }
                 }
             }
 
             // Apply the height to the object before waiting for the movementDelay.
-            popOutEnemy.position = new Vector3(popOutEnemy.position.x, height, popOutEnemy.position.z);
+            popOutEnemy.transform.position = new Vector3(popOutEnemy.transform.position.x, height, popOutEnemy.transform.position.z);
         }
     }
 }
