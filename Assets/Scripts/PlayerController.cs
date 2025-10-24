@@ -98,7 +98,7 @@ public class PlayerController : MonoBehaviour
     void OnCollisionEnter(Collision other)
     {
         // Reset the jump when the player hits the ground.
-        if (other.gameObject.CompareTag("Ground") || other.gameObject.CompareTag("Platform") && !canJump)
+        if (other.gameObject.CompareTag("Ground") || other.gameObject.CompareTag("Platform") && !canJump || other.gameObject.CompareTag("MovingPlatform") && !canJump)
         {
             canJump = true;
         }
@@ -121,6 +121,10 @@ public class PlayerController : MonoBehaviour
             {
                 stoodOnPipe = true;
             }
+        }
+        else if (other.gameObject.CompareTag("MovingPlatform"))
+        {
+            int platformSpeed = other.gameObject.GetComponent<MovingPlatformController>().;
         }
     }
 
@@ -176,6 +180,7 @@ public class PlayerController : MonoBehaviour
     {
         health--;
         transform.localScale = new Vector3(transform.localScale.x - 0.2f, transform.localScale.y - 0.2f, transform.localScale.z - 0.2f);
+        transform.position = new Vector3(transform.position.x, transform.position.y - 0.2f, transform.position.z);
         if (health <= 0)
         {
             Debug.Log("Player has died");

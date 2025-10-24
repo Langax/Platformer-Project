@@ -12,8 +12,8 @@ public class Enemy3_AI : MonoBehaviour
 
     private float popUpTimer = 0;
     private float popUpDelay = 5;
-    private float movementDelay = 0.10f;
-    private float movementTimer = 0;
+    private float upSpeed = 0.0006f;
+    private float downSpeed = 0.001f;
 
     void Start()
     {
@@ -24,42 +24,38 @@ public class Enemy3_AI : MonoBehaviour
     {
         // Increment the timers each Update.
         popUpTimer += Time.deltaTime;
-        movementTimer += Time.deltaTime;
 
         // Cooldown of 5 seconds between pop up.
         if (popUpTimer >= popUpDelay)
         {
-            // Slight cooldown before each movement increment to ensure a smooth rise/fall.
-            if (movementTimer >= movementDelay)
+            // When goingUp is true, increase the height until the max, then begin to decrease the height until minimum, if it is disabled, enable it first.
+            // Disable it when it reaches the minimum height, to avoid collision issues.
+            if (goingUp)
             {
-                // When goingUp is true, increase the height until the max, then begin to decrease the height until minimum.
-                if (goingUp)
+                if (!popOutEnemy.activeSelf)
                 {
-                    if (!popOutEnemy.activeSelf)
-                    {
-                        popOutEnemy.SetActive(true);
-                    }
-
-                    height += 0.0006f;
-
-                    if (popOutEnemy.transform.position.y >= maxY)
-                    {
-                        goingUp = false;
-                    }
+                    popOutEnemy.SetActive(true);
                 }
-                else
+
+                height += upSpeed;
+
+                if (popOutEnemy.transform.position.y >= maxY)
                 {
-                    height -= 0.001f;
-                    if (popOutEnemy.transform.position.y <= minY)
-                    {
-                        goingUp = true;
-                        popOutEnemy.SetActive(false);
-                        popUpTimer = 0;
-                    }
+                    goingUp = false;
+                }
+            }
+            else
+            {
+                height -= downSpeed;
+                if (popOutEnemy.transform.position.y <= minY)
+                {
+                    goingUp = true;
+                    popOutEnemy.SetActive(false);
+                    popUpTimer = 0;
                 }
             }
 
-            // Apply the height to the object before waiting for the movementDelay.
+            // Apply the height to the object.
             popOutEnemy.transform.position = new Vector3(popOutEnemy.transform.position.x, height, popOutEnemy.transform.position.z);
         }
     }
