@@ -13,6 +13,7 @@ TagManager:
   - Platform
   - PopUpEnemy
   - DownPipe
+  - MovingPlatform
   layers:
   - Default
   - TransparentFX
