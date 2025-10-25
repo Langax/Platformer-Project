@@ -1,26 +1,53 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SocialPlatforms.Impl;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    // Variable declaration
+    // Variable declaration.
     private Rigidbody rb;
     private Vector2 movementDirection;
-    
     private bool canJump = true;
     private float fireTimer = 0.0f;
-    private float fireBallCooldown;
+    private float fireBallCooldown = 0;
+    private int score;
+    private int lives = 3;
+    private int raycastLength = 10;
+    private Vector3 platformCurrentPos;
+    private Vector3 platformPreviousPos;
     
     public int movementSpeed;
     public int jumpForce;
+    public int health;
+    public bool stoodOnPipe = false;
     public GameObject fireBallPrefab;
-    
+    public TextMeshProUGUI scoreText;
+    public Transform fireBallSpawnLocation;
+    public Transform bossRoomSpawnLocation;
+
+
     void Start()
     {
         // Rigid body assignment.
         rb = GetComponent<Rigidbody>();
+
+        score = 0;
+    }
+
+    void Update()
+    {
+        // Keep the rotation fixed.
+        transform.rotation = new Quaternion(0, 0, 0, 1);
+
+        DoRayCast();
+ 
     }
     
+    //==========================================================================
+    //MOVEMENT & INPUTS
+    //==========================================================================
     void FixedUpdate()
     {
         // Apply the movement direction to the rigidbody (Normalized by deltaTime) as linearVelocity.
@@ -45,39 +72,144 @@ public class PlayerController : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext context)
     {
-        // If the player isn't still in the air, apply an upward force of jumpForce.
-        if (canJump)
+        // Only jump on the button press, not release.
+        if (context.phase == InputActionPhase.Started)
         {
-            rb.AddForce(0.0f, jumpForce, 0.0f);
-            canJump = false;
+            // If the player isn't still in the air, apply an upward force of jumpForce.
+            if (canJump)
+            {
+                rb.AddForce(0.0f, jumpForce, 0.0f);
+                canJump = false;
+            }
         }
     }
 
-    // TODO: Make fireball not collide with the player
-    // TODO: Make fireball fire backward or forward depending on player direction
+    public void Crouch(InputAction.CallbackContext context)
+    {
+        // Teleport the player to the bossRoom if they crouch on the DownPipe
+        if (stoodOnPipe)
+        {
+            gameObject.transform.position = bossRoomSpawnLocation.position;
+        }
+    }
+    
+    // TODO: Make fireball fire backward or forward depending on player direction.
     public void FireBall(InputAction.CallbackContext context)
     {
         // So long as the fire timer is greater than 0, and it's not on cooldown, shoot a fireball.
         if (fireTimer > 0 && fireBallCooldown <= 0)
         {
-            GameObject fireBall = Instantiate(fireBallPrefab, transform.position, transform.rotation);
+            GameObject fireBall = Instantiate(fireBallPrefab, fireBallSpawnLocation.transform.position, fireBallSpawnLocation.transform.rotation);
             fireBallCooldown = 1.0f;
         }
     }
 
+
+    //==========================================================================
+    //COLLISIONS
+    //==========================================================================
     void OnCollisionEnter(Collision other)
     {
-        // Reset the jump when the player hits the ground .
-        if (other.gameObject.CompareTag("Ground") && !canJump)
+        // Reset the jump when the player hits the ground (or similar).
+        if (other.gameObject.CompareTag("Ground") || other.gameObject.CompareTag("Platform") && !canJump || other.gameObject.CompareTag("MovingPlatform") && !canJump)
         {
             canJump = true;
         }
-        // Increase the fireTimer to allow fireballs to be shot.
-        else if (other.gameObject.CompareTag("FirePowerUp"))
+    }
+    
+    //==========================================================================
+    //SCORE & DEATH
+    //==========================================================================
+
+    public void IncreaseScore(int increaseAmount)
+    {
+        // Increment the score by an inputted amount and re-set the score text.
+        if (increaseAmount > 0)
         {
-            Debug.Log("Activating Fire power up");
-            Destroy(other.gameObject);
-            fireTimer += 10.0f;
+            score += increaseAmount;
+            Debug.Log("Score: " + score);
+            SetScoreText();
         }
     }
+
+    void SetScoreText()
+    {
+        scoreText.text = "Score: " + score.ToString();
+    }
+
+    // TODO: Add three lives, each death removes one and resets the level ?
+    void RemoveLife()
+    {
+        // When the players health reaches 0, remove a life and reset the position/health of the player, when all three lives are gone, game over.
+        lives -= 1;
+        if (lives <= 0)
+        {
+            Debug.Log("Game Over");
+        }
+        else
+        {
+            transform.position = new Vector3(-8.67f, 0.0f, 0.0f);
+            health = 3;
+            transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+        }
+    }
+
+    public void TakeDamage()
+    {
+        // Reduce the health by 1 and shrink the player by 0.2f, lower the position of the player at the same time to remove mutliple hits from a single collision.
+        health--;
+        transform.localScale = new Vector3(transform.localScale.x - 0.2f, transform.localScale.y - 0.2f, transform.localScale.z - 0.2f);
+        transform.position = new Vector3(transform.position.x, transform.position.y - 0.2f, transform.position.z);
+        if (health <= 0)
+        {
+            Debug.Log("Player has died");
+            RemoveLife();
+        }
+    }
+
+    //==========================================================================
+    //POWER UPS
+    //==========================================================================
+
+    public void ActivateFirePower()
+    {
+        fireTimer += 10.0f;
+    }
+
+
+    //==========================================================================
+    //RAY-CASTING
+    //==========================================================================
+
+    private int DoRayCast()
+    {
+        // Create the ray cast
+        RaycastHit hit;
+        Ray ray = new Ray(transform.position, -transform.up);
+        bool rayHit = Physics.Raycast(ray, out hit, raycastLength);
+
+        if (rayHit)
+        {
+            // When it detects a Moving platform, update the position variables and obtain the delta, then apply that to the player to have the player move with the platform
+            if (hit.collider.CompareTag("MovingPlatform"))
+            {
+                platformPreviousPos = platformCurrentPos;
+                platformCurrentPos = hit.collider.transform.position;
+
+                
+                Vector3 platformMovementDelta = platformCurrentPos - platformPreviousPos;
+                
+                // Discard values that are too high to avoid buggy teleporting
+                if (platformMovementDelta.x <= 0.07 && platformMovementDelta.x >= -0.07)
+                {
+                    transform.position += platformMovementDelta;
+                }
+
+                return 1;
+            }
+        }
+
+        return 0;
+    }
+    
 }

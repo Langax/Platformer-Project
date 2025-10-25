@@ -7,13 +7,18 @@ TagManager:
   - Ground
   - Wall
   - Pipe
-  - FirePower
   - FirePowerUp
+  - CoinBoxTag
+  - CoinBoxCollider
+  - Platform
+  - PopUpEnemy
+  - DownPipe
+  - MovingPlatform
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - 
