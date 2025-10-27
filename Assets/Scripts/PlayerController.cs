@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.SocialPlatforms.Impl;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class PlayerController : MonoBehaviour
     private int raycastLength = 10;
     private Vector3 platformCurrentPos;
     private Vector3 platformPreviousPos;
+    private bool hit_i_frames = false;
     
     public int movementSpeed;
     public int jumpForce;
@@ -138,34 +140,66 @@ public class PlayerController : MonoBehaviour
     }
 
     // TODO: Add three lives, each death removes one and resets the level ?
-    void RemoveLife()
-    {
-        // When the players health reaches 0, remove a life and reset the position/health of the player, when all three lives are gone, game over.
-        lives -= 1;
-        if (lives <= 0)
-        {
-            Debug.Log("Game Over");
-        }
-        else
-        {
-            transform.position = new Vector3(-8.67f, 0.0f, 0.0f);
-            health = 3;
-            transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-        }
-    }
+    // Millie here, commented out the code and just made it restart the level if you run out of HP instead of a life system
+
+    //void restart_level()
+    //{
+    //    // When the players health reaches 0, remove a life and reset the position/health of the player, when all three lives are gone, game over.
+    //    lives -= 1;
+    //    if (lives <= 0)
+    //    {
+    //        Debug.Log("Game Over");
+    //    }
+    //    else
+    //    {
+    //        transform.position = new Vector3(-8.67f, 0.0f, 0.0f);
+    //        health = 3;
+    //        transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+    //    }
+    //}
 
     public void TakeDamage()
     {
-        // Reduce the health by 1 and shrink the player by 0.2f, lower the position of the player at the same time to remove mutliple hits from a single collision.
-        health--;
-        transform.localScale = new Vector3(transform.localScale.x - 0.2f, transform.localScale.y - 0.2f, transform.localScale.z - 0.2f);
-        transform.position = new Vector3(transform.position.x, transform.position.y - 0.2f, transform.position.z);
-        if (health <= 0)
+        // Basically I frames means no hit! Simple stuff
+        if (hit_i_frames == false)
         {
-            Debug.Log("Player has died");
-            RemoveLife();
+            hit_i_frames = true;
+            Debug.Log("Player damaged!");
+            health--;
+            // Removed size and position changes due to bugs and redundencies
+            if (health <= 0)
+            {
+                Debug.Log("Player has died");
+                //RemoveLife();
+                hit_i_frames = false; // If the co-routine was above it would start playing the I frame animation before the level reloaded
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            }
+            else
+            {
+                StartCoroutine(I_Frames()); // Starts the wait and I frame animation
+            }
         }
     }
+
+    IEnumerator  I_Frames() // Holds the I frames for a set duration, this is a co routine basically meaning it runs ALONGSIDE the code it's attached to :3
+    {
+        MeshRenderer mR = GetComponent<MeshRenderer>(); // This stuff took me awhile to figure out, still not 100% on it all but it'll do
+
+        for (float i = 0; i <= 12; i++) // Waits a total of 3 seconds, 12 times but with a 0.25 second wait between each
+        {
+            if (i % 2 == 0) // Even
+            {
+                GetComponent<MeshRenderer>().material.color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
+            }
+            else // Odd
+            {
+                GetComponent<MeshRenderer>().material.color = new Color(0f, 0f, 0f, 0.5f);
+            }
+            yield return new WaitForSeconds(0.25f); // Tells the code to wait
+        }
+        
+        hit_i_frames = false;
+     }
 
     //==========================================================================
     //POWER UPS

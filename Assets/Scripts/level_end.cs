@@ -4,7 +4,7 @@ public class level_end : MonoBehaviour
 {
     private camera cam_script;
     private bool interpolating = false;
-    public GameObject cam_object;
+    private GameObject camera_object; // Searches for camera object
     public Vector3 cam_rotation; // We store this as a vector 3 then convert into Quaternion later so we can multiply the value for a smooth transition
     public Vector3 cam_position;
     public bool reverse_rotation = true; // Basically should it rotate left or right when transitioning!
@@ -17,7 +17,8 @@ public class level_end : MonoBehaviour
 
     private void Start()
     {
-        cam_script = cam_object.GetComponent<camera>(); // So we can change the variables from the camera script
+        camera_object = GameObject.Find("camera");
+        cam_script = camera_object.GetComponent<camera>(); // So we can change the variables from the camera script
     }
 
     private void Update()

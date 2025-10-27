@@ -176,7 +176,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   movementSpeed: 200
   jumpForce: 700
-  health: 3
+  health: 2
   stoodOnPipe: 0
   fireBallPrefab: {fileID: 4082506458003673845, guid: 4cda935591233eb46b44d8e50790aff3, type: 3}
   scoreText: {fileID: 0}
@@ -326,7 +326,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: ab93452260a92a9489032e9a712d7fa5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -494,7 +494,7 @@ GameObject:
   - component: {fileID: 1443582454}
   - component: {fileID: 1443582455}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1098,6 +1098,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: npc_goon
       objectReference: {fileID: 0}
+    - target: {fileID: 1936701074000410277, guid: f70bcbfb2622e9542a3a4ff549a75fc6, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 69e088575551de542a5fcc0e8e756611, type: 2}
     - target: {fileID: 4127682434191774278, guid: f70bcbfb2622e9542a3a4ff549a75fc6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
