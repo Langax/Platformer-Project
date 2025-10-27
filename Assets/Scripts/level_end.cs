@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 
 public class level_end : MonoBehaviour
 {
@@ -47,6 +46,7 @@ public class level_end : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        if (other.name != "Player") { return;  } // Stops the code if the player isn't the one hitting it
         if (cam_script.camera_offset_position != cam_position && interpolating == false) // checks IF it even needs to run (stops errors happening from reversing saves game lag etc), I did ORIGINALLY have a rotation check in there however Quaternion stores really weird and one of the numbers were negative making it always trigger :c
         {
             interpolating = true;
