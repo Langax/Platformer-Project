@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
 {
     // Variable declaration.
     private Rigidbody rb;
-    private Vector2 movementDirection;
+    private Vector3 movementDirection;
     private bool canJump = true;
     private float fireTimer = 0.0f;
     private float fireBallCooldown = 0;
@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 platformCurrentPos;
     private Vector3 platformPreviousPos;
     private bool hit_i_frames = false;
+    private GameObject camera;
     
     public int movementSpeed;
     public int jumpForce;
@@ -27,13 +28,13 @@ public class PlayerController : MonoBehaviour
     public GameObject fireBallPrefab;
     public TextMeshProUGUI scoreText;
     public Transform fireBallSpawnLocation;
-    public Transform bossRoomSpawnLocation;
 
 
     void Start()
     {
         // Rigid body assignment.
         rb = GetComponent<Rigidbody>();
+        camera = GameObject.Find("camera");
 
         score = 0;
     }
@@ -41,7 +42,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         // Keep the rotation fixed.
-        transform.rotation = new Quaternion(0, 0, 0, 1);
+        transform.rotation = new Quaternion(0, camera.transform.rotation.y, 0, 1);
 
         DoRayCast();
  
@@ -53,7 +54,16 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         // Apply the movement direction to the rigidbody (Normalized by deltaTime) as linearVelocity.
-        rb.linearVelocity = new Vector2(movementDirection.x * (movementSpeed * Time.deltaTime), rb.linearVelocity.y);
+        if (camera.transform.rotation.y == 0)
+        {
+            rb.linearVelocity = new Vector3(movementDirection.x * (movementSpeed * Time.deltaTime), rb.linearVelocity.y, 0);
+        }
+        // If the camera has turned, move along the Z axis instead.
+        else
+        {
+            rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, movementDirection.x * (movementSpeed * Time.deltaTime));
+        }
+
 
         // Constantly decrease the fireTimer and fireBallCooldown if they are active.
         if (fireTimer > 0)
@@ -69,7 +79,7 @@ public class PlayerController : MonoBehaviour
     public void Move(InputAction.CallbackContext context)
     {
         // Obtain the direction as a Vector2 from the InputAction.
-        movementDirection = context.ReadValue<Vector2>();
+        movementDirection = context.ReadValue<Vector3>();
     }
 
     public void Jump(InputAction.CallbackContext context)
@@ -91,7 +101,7 @@ public class PlayerController : MonoBehaviour
         // Teleport the player to the bossRoom if they crouch on the DownPipe
         if (stoodOnPipe)
         {
-            gameObject.transform.position = bossRoomSpawnLocation.position;
+            //gameObject.transform.position = bossRoomSpawnLocation.position;
         }
     }
     

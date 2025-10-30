@@ -4,17 +4,19 @@ public class FireBallMovement : MonoBehaviour
 {
     // Variable declaration.
     private Rigidbody rb;
-    private float angle = -45;
+    private float angle = 45;
     private int force = 8;
+    private GameObject camera;
 
     // For use later when enemy death will increase score.
     public PlayerController playerController;
     
     void Start()
     { 
+        camera = GameObject.Find("camera");
         // Immediately add a force to the Fireball to push it away from the Player.
         rb = GetComponent<Rigidbody>();
-        rb.AddForce(200.0f, -190.0f, 0.0f);
+        //rb.AddForce(200.0f, -190.0f, 0.0f);
     }
     
     void OnCollisionEnter(Collision other)
@@ -23,7 +25,15 @@ public class FireBallMovement : MonoBehaviour
         if (other.gameObject.CompareTag("Ground") || other.gameObject.CompareTag("Platform"))
         {
             rb.linearVelocity = Vector3.zero;
-            Quaternion rotation = Quaternion.Euler(0, 0, angle);
+            Quaternion rotation = Quaternion.Euler(0, 0, 0);
+            if (camera.transform.rotation.y == 0)
+            {
+                 rotation = Quaternion.Euler(0, 0, -angle);
+            }
+            else
+            {
+                rotation = Quaternion.Euler(angle, 0, 0);
+            }
             rb.AddForce(rotation * Vector2.up * force, ForceMode.Impulse);
         }
         // When the fireball hits the wall or a pipe, destroy it.
