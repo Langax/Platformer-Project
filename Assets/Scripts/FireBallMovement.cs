@@ -6,17 +6,25 @@ public class FireBallMovement : MonoBehaviour
     private Rigidbody rb;
     private float angle = 45;
     private int force = 8;
-    private GameObject camera;
-
-    // For use later when enemy death will increase score.
-    public PlayerController playerController;
+    private new GameObject camera;
+    private GameObject player;
     
     void Start()
-    { 
+    {
+        player = GameObject.Find("Player");
         camera = GameObject.Find("camera");
-        // Immediately add a force to the Fireball to push it away from the Player.
         rb = GetComponent<Rigidbody>();
-        //rb.AddForce(200.0f, -190.0f, 0.0f);
+
+        // Immediately add a force to the Fireball to push it away from the Player.
+        // Applied in the direction that the player is facing/the world is rotated to (Currently limited to 2 directions).
+        if (player.transform.rotation.y == 0)
+        {
+            rb.AddForce(200.0f, -190.0f, 0.0f);
+        }
+        else
+        {
+            rb.AddForce(0.0f, -190.0f, 200.0f);
+        }
     }
     
     void OnCollisionEnter(Collision other)
@@ -41,7 +49,22 @@ public class FireBallMovement : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        // TODO: Collision with Enemies (destroy self & enemy).
-        // 
+        // When colliding with an enemy, destroy it and the fireball, then increase the score by 2.
+        else if (other.gameObject.CompareTag("Enemy")){
+            Destroy(gameObject);
+            Destroy(other.gameObject);
+            player.GetComponent<PlayerController>().IncreaseScore(2);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // The PopUpEnemy is a trigger so it needs a separate section. Destroy it + self and increase score.
+        if (other.gameObject.CompareTag("PopUpEnemy"))
+        {
+            Destroy(gameObject);
+            Destroy(other.gameObject);
+            player.GetComponent<PlayerController>().IncreaseScore(3);
+        }
     }
 }

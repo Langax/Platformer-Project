@@ -6,8 +6,6 @@ public class CoinBoxInteraction : MonoBehaviour
     private bool canGiveCoin = true;
     public GameObject goldCoinPrefab;
     public Transform coinSpawnPoint;
-    public PlayerController playerController;
-
 
     void OnCollisionEnter(Collision other)
     {
@@ -18,7 +16,7 @@ public class CoinBoxInteraction : MonoBehaviour
             canGiveCoin = false;
             Destroy(gameObject.GetComponent<BoxCollider>());
 
-            playerController.IncreaseScore(1);
+            other.gameObject.GetComponent<PlayerController>().IncreaseScore(1);
         }
     }
 }
