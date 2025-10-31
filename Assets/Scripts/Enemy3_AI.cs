@@ -3,7 +3,6 @@ using UnityEngine;
 public class Enemy3_AI : MonoBehaviour
 {
     // Variable Declaration.
-    public GameObject popOutEnemy;
     public float maxY = 1;
     public float minY = -0.5f;
 
@@ -17,14 +16,13 @@ public class Enemy3_AI : MonoBehaviour
 
     void Start()
     {
-        height = popOutEnemy.transform.position.y;
+        height = transform.position.y;
     }
 
     void Update()
     {
         // Increment the timers each Update.
         popUpTimer += Time.deltaTime;
-
         // Cooldown of 5 seconds between pop up.
         if (popUpTimer >= popUpDelay)
         {
@@ -32,14 +30,13 @@ public class Enemy3_AI : MonoBehaviour
             // Disable it when it reaches the minimum height, to avoid collision issues.
             if (goingUp)
             {
-                if (!popOutEnemy.activeSelf)
+                if (!gameObject.activeSelf)
                 {
-                    popOutEnemy.SetActive(true);
+                    gameObject.SetActive(true);
                 }
 
                 height += upSpeed;
-
-                if (popOutEnemy.transform.position.y >= maxY)
+                if (transform.position.y >= maxY)
                 {
                     goingUp = false;
                 }
@@ -47,16 +44,17 @@ public class Enemy3_AI : MonoBehaviour
             else
             {
                 height -= downSpeed;
-                if (popOutEnemy.transform.position.y <= minY)
+                if (transform.position.y <= minY)
                 {
                     goingUp = true;
-                    popOutEnemy.SetActive(false);
+                    // TODO: Fix collision here, disabling it no longer works as the script is on the enemy itself not the parent object.
+                    // gameObject.SetActive(false);
                     popUpTimer = 0;
                 }
             }
 
             // Apply the height to the object.
-            popOutEnemy.transform.position = new Vector3(popOutEnemy.transform.position.x, height, popOutEnemy.transform.position.z);
+            transform.position = new Vector3(transform.position.x, height, transform.position.z);
         }
     }
 

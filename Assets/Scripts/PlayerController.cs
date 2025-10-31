@@ -14,12 +14,11 @@ public class PlayerController : MonoBehaviour
     private float fireTimer = 0.0f;
     private float fireBallCooldown = 0;
     private int score;
-    private int lives = 3;
     private int raycastLength = 10;
     private Vector3 platformCurrentPos;
     private Vector3 platformPreviousPos;
     private bool hit_i_frames = false;
-    private GameObject camera;
+    private new GameObject camera;
     
     public int movementSpeed;
     public int jumpForce;
@@ -78,7 +77,7 @@ public class PlayerController : MonoBehaviour
 
     public void Move(InputAction.CallbackContext context)
     {
-        // Obtain the direction as a Vector2 from the InputAction.
+        // Obtain the direction as a Vector3 from the InputAction.
         movementDirection = context.ReadValue<Vector3>();
     }
 
@@ -148,25 +147,6 @@ public class PlayerController : MonoBehaviour
     {
         scoreText.text = "Score: " + score.ToString();
     }
-
-    // TODO: Add three lives, each death removes one and resets the level ?
-    // Millie here, commented out the code and just made it restart the level if you run out of HP instead of a life system
-
-    //void restart_level()
-    //{
-    //    // When the players health reaches 0, remove a life and reset the position/health of the player, when all three lives are gone, game over.
-    //    lives -= 1;
-    //    if (lives <= 0)
-    //    {
-    //        Debug.Log("Game Over");
-    //    }
-    //    else
-    //    {
-    //        transform.position = new Vector3(-8.67f, 0.0f, 0.0f);
-    //        health = 3;
-    //        transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-    //    }
-    //}
 
     public void TakeDamage()
     {
