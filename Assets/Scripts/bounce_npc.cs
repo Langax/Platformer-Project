@@ -34,7 +34,6 @@ public class bounce_npc : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void OnCollisionEnter(Collision collision)
     {
         if (is_alive == false) { return; } // Stops code from running if the NPC is dead, stops the player from killing the same NPC twice ( it was possible at one point )
