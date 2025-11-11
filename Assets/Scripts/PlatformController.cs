@@ -4,7 +4,12 @@ public class PlatformController : MonoBehaviour
 {
     // Variable declaration.
     public float enableHeight = 0.0f;
-    public GameObject player;
+    private GameObject player;
+
+    void Start()
+    {
+        player = GameObject.Find("Player");
+    }
 
     void Update()
     {

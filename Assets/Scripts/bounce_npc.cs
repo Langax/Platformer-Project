@@ -60,17 +60,19 @@ public class bounce_npc : MonoBehaviour
     {
         if (is_alive == false) { return; } // Stops code from running if the NPC is dead, stops the player from killing the same NPC twice ( it was possible at one point )
         GameObject collided_object = collision.gameObject;
-        if (collided_object.name != "Player") //Bounce off object
+
+        if (!collided_object.CompareTag("Player")) //Bounce off object
         {
             movement_speed = -movement_speed; // Basically just get the speed and turn it negative, or if it's negative it turns positive :3
         }
-        else // Otherwise we hit the player!
+        else if(collided_object.CompareTag("Player")) // Otherwise we hit the player!
         {
             Vector3 player_velocity = player_rb.linearVelocity;
 
             if (player_velocity.y < -0.01 || player.transform.position.y > transform.position.y) // If the player is falling down, has to be -0.01 to avoid a weird bug found when at just 0
             {
                 is_alive = false;
+                player_script.IncreaseScore(1);
                 movement_speed = 0; // Stops movement
                 transform.position = new Vector3(transform.position.x,transform.position.y-(transform.localScale.y / 2),transform.position.z);
                 player_rb.AddForce(0, player_script.jumpForce, 0); // Basically just does another jump using the players jump force!

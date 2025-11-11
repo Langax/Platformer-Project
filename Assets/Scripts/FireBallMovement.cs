@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FireBallMovement : MonoBehaviour
@@ -29,14 +30,46 @@ public class FireBallMovement : MonoBehaviour
     
     void OnCollisionEnter(Collision other)
     {
-        // When the fireball hits the ground, reset its momentum and apply a 45-degree angle force.
-        if (other.gameObject.CompareTag("Ground") || other.gameObject.CompareTag("Platform"))
+        if ((other.gameObject.transform.localScale.y/2)+other.gameObject.transform.position.y > gameObject.transform.position.y && !other.gameObject.CompareTag("Enemy")) // Hit a wall (btw the end should be gameObject.transform.position.y-(gameObject.transform.localScale.y/2) but it goes into the floor for a frame sooo....)
+        //The formula finds the highest point of the object that it hit and the centre point of it's self and IF the other object is higher than the fire ball then boom this runs (would be lowest point of the fire ball but it goes into the floor a bit)
         {
+            Destroy(gameObject);
+        }
+        // When the fireball hits the ground, reset its momentum and apply a 45-degree angle force.
+        //if (other.gameObject.CompareTag("Ground") || other.gameObject.CompareTag("Platform"))
+        //{
+        //    rb.linearVelocity = Vector3.zero;
+        //    Quaternion rotation = Quaternion.Euler(0, 0, 0);
+        //    if (camera.transform.rotation.y == 0)
+        //    {
+        //        rotation = Quaternion.Euler(0, 0, -angle);
+        //    }
+        //    else
+        //    {
+        //        rotation = Quaternion.Euler(angle, 0, 0);
+        //    }
+         //   rb.AddForce(rotation * Vector2.up * force, ForceMode.Impulse);
+        //}
+        // When the fireball hits the wall or a pipe, destroy it.
+        //else if (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Pipe") || other.gameObject.CompareTag("DownPipe"))
+        //{
+        //    Destroy(gameObject);
+        //}
+        // When colliding with an enemy, destroy it and the fireball, then increase the score by 2.
+        else if (other.gameObject.CompareTag("Enemy"))
+        {
+            Destroy(gameObject);
+            Destroy(other.gameObject);
+            player.GetComponent<PlayerController>().IncreaseScore(2);
+        }
+        else
+        {
+            {
             rb.linearVelocity = Vector3.zero;
             Quaternion rotation = Quaternion.Euler(0, 0, 0);
             if (camera.transform.rotation.y == 0)
             {
-                 rotation = Quaternion.Euler(0, 0, -angle);
+                rotation = Quaternion.Euler(0, 0, -angle);
             }
             else
             {
@@ -44,16 +77,6 @@ public class FireBallMovement : MonoBehaviour
             }
             rb.AddForce(rotation * Vector2.up * force, ForceMode.Impulse);
         }
-        // When the fireball hits the wall or a pipe, destroy it.
-        else if (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Pipe") || other.gameObject.CompareTag("DownPipe"))
-        {
-            Destroy(gameObject);
-        }
-        // When colliding with an enemy, destroy it and the fireball, then increase the score by 2.
-        else if (other.gameObject.CompareTag("Enemy")){
-            Destroy(gameObject);
-            Destroy(other.gameObject);
-            player.GetComponent<PlayerController>().IncreaseScore(2);
         }
     }
 
@@ -62,6 +85,7 @@ public class FireBallMovement : MonoBehaviour
         // The PopUpEnemy is a trigger so it needs a separate section. Destroy it + self and increase score.
         if (other.gameObject.CompareTag("PopUpEnemy") || other.gameObject.CompareTag("Enemy"))
         {
+            Debug.Log("It ran I guess...");
             Destroy(gameObject);
             Destroy(other.gameObject);
             player.GetComponent<PlayerController>().IncreaseScore(3);
