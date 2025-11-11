@@ -60,7 +60,7 @@ public class FireBallMovement : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // The PopUpEnemy is a trigger so it needs a separate section. Destroy it + self and increase score.
-        if (other.gameObject.CompareTag("PopUpEnemy"))
+        if (other.gameObject.CompareTag("PopUpEnemy") || other.gameObject.CompareTag("Enemy"))
         {
             Destroy(gameObject);
             Destroy(other.gameObject);

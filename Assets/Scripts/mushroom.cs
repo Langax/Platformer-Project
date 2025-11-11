@@ -19,12 +19,10 @@ public class mushroom : MonoBehaviour
 
     }
     
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider other)
     {
-        GameObject collided_object = collision.gameObject;
-        Debug.Log("HIT!");
+        GameObject collided_object = other.gameObject;
         if (collided_object != player) { return; } // Stops the code if the player isn't the one hitting it
-        Debug.Log("HIT!");
         player_script.health += 1;
         Destroy(gameObject);
     }// end collision

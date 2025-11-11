@@ -3,6 +3,7 @@ using UnityEngine;
 public class level_end : MonoBehaviour
 {
     private camera cam_script;
+    private PlayerController player_script;
     private bool interpolating = false;
     private GameObject camera_object; // Searches for camera object
     public Vector3 cam_rotation; // We store this as a vector 3 then convert into Quaternion later so we can multiply the value for a smooth transition
@@ -19,6 +20,7 @@ public class level_end : MonoBehaviour
     {
         camera_object = GameObject.Find("camera");
         cam_script = camera_object.GetComponent<camera>(); // So we can change the variables from the camera script
+        player_script = GameObject.Find("Player").GetComponent<PlayerController>();
     }
 
     private void Update()
@@ -27,7 +29,12 @@ public class level_end : MonoBehaviour
         {
             current_time += Time.deltaTime;
 
-            if (current_time >= interp_duration) { current_time = interp_duration; interpolating = true; } // This is so the final loop ends with a x1 multiplier instead of something like 1.00168
+            if (current_time >= interp_duration)// This is so the final loop ends with a x1 multiplier instead of something like 1.00168
+            { 
+                current_time = interp_duration; interpolating = true;
+                player_script.can_move = true;
+                player_script.canJump = true;
+            } 
 
             float interp_amount = 1/(interp_duration / current_time);  // This basically produces a value between 0 and 1 to tell what stage of the interp we are at and do maths with the positions
 
@@ -50,6 +57,8 @@ public class level_end : MonoBehaviour
         if (other.name != "Player") { return;  } // Stops the code if the player isn't the one hitting it
         if (cam_script.camera_offset_position != cam_position && interpolating == false) // checks IF it even needs to run (stops errors happening from reversing saves game lag etc), I did ORIGINALLY have a rotation check in there however Quaternion stores really weird and one of the numbers were negative making it always trigger :c
         {
+            player_script.can_move = false;
+            player_script.canJump = false;
             interpolating = true;
             cam_starting_position = cam_script.camera_offset_position; // Holds the original starting position
             cam_starting_rotation = cam_script.camera_offset_rotation.eulerAngles; // the .eulearAngles converts it into vector3 for MATHS to happen. okay!

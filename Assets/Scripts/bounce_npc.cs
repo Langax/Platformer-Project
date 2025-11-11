@@ -7,6 +7,7 @@ using Unity.Mathematics;
 public class bounce_npc : MonoBehaviour
 {
     private bool freeze_movement;
+    public bool inverse_move_direction = false;
     private PlayerController player_script;
     private Rigidbody rb;
     private GameObject player;
@@ -26,8 +27,29 @@ public class bounce_npc : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!freeze_movement) { rb.linearVelocity = new Vector2(movement_speed * Time.deltaTime, 0); } // Moves the NPC, only if it's not told to freeze
-        
+        if (inverse_move_direction == false)
+        {
+            if (!freeze_movement) // Moves the NPC, only if it's not told to freeze
+            {
+                rb.linearVelocity = new Vector2(movement_speed * Time.deltaTime, 0);
+            }
+            else
+            {
+                rb.linearVelocity = new Vector3(0,0,0);
+            }
+        }
+        else
+        {
+             if (!freeze_movement) // Moves the NPC, only if it's not told to freeze
+            {
+                rb.linearVelocity = new Vector3(0,0,movement_speed * Time.deltaTime);
+            }
+            else
+            {
+                rb.linearVelocity = new Vector3(0,0,0);
+            }
+        }
+
         if (is_alive == false) // Has to be put into update look or it just falls over lol
         {
             transform.rotation = new quaternion(0, 0, 0, 0); // Yeah not sure why there's 4, resets the rotation for the squashed look

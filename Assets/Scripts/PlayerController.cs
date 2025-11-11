@@ -10,7 +10,8 @@ public class PlayerController : MonoBehaviour
     // Variable declaration.
     private Rigidbody rb;
     private Vector3 movementDirection;
-    private bool canJump = true;
+    public bool canJump = true;
+    public bool can_move = true;
     private float fireTimer = 0.0f;
     private float fireBallCooldown = 0;
     private int score;
@@ -52,17 +53,23 @@ public class PlayerController : MonoBehaviour
     //==========================================================================
     void FixedUpdate()
     {
-        // Apply the movement direction to the rigidbody (Normalized by deltaTime) as linearVelocity.
-        if (camera.transform.rotation.y == 0)
+        if (can_move == true) // So the player doesn't move during the level end etc
         {
-            rb.linearVelocity = new Vector3(movementDirection.x * (movementSpeed * Time.deltaTime), rb.linearVelocity.y, 0);
+                // Apply the movement direction to the rigidbody (Normalized by deltaTime) as linearVelocity.
+            if (camera.transform.rotation.y == 0)
+            {
+                rb.linearVelocity = new Vector3(movementDirection.x * (movementSpeed * Time.deltaTime), rb.linearVelocity.y, 0);
+            }
+            // If the camera has turned, move along the Z axis instead.
+            else
+            {
+                rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, movementDirection.x * (movementSpeed * Time.deltaTime));
+            }
         }
-        // If the camera has turned, move along the Z axis instead.
         else
         {
-            rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, movementDirection.x * (movementSpeed * Time.deltaTime));
+            rb.linearVelocity = new Vector3(0,0,0);
         }
-
 
         // Constantly decrease the fireTimer and fireBallCooldown if they are active.
         if (fireTimer > 0)
